@@ -1,257 +1,240 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+# @title OWS Strike Calculator (Interactive GUI) { run: "auto" }
+import IPython
+
+html_code = """
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWS Strike Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; color: #1f2937; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap; }
+        .panel { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex: 1; min-width: 300px; }
+        h2 { margin-top: 0; font-size: 1.2rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .input-group { margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+        label { font-size: 0.9rem; font-weight: 600; }
+        select, input { padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; width: 100px; }
+        .pk-display { font-size: 2.5rem; font-weight: bold; color: #dc2626; text-align: center; margin: 20px 0; }
+        canvas { width: 100% !important; max-height: 400px; }
+        .flex-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .flex-row > div { flex: 1; }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1"># @title OWS Strike Calculator (Interactive GUI) { run: "auto" }</span></p>
-<p class="p1"><span class="s1">import IPython</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">html_code = """</span></p>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;OWS Strike Calculator&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; color: #1f2937; margin: 0; padding: 20px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.container { max-width: 1200px; margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.panel { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex: 1; min-width: 300px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>h2 { margin-top: 0; font-size: 1.2rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.input-group { margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>label { font-size: 0.9rem; font-weight: 600; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>select, input { padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; width: 100px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pk-display { font-size: 2.5rem; font-weight: bold; color: #dc2626; text-align: center; margin: 20px 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>canvas { width: 100% !important; max-height: 400px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.flex-row { display: flex; gap: 10px; margin-bottom: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.flex-row &gt; div { flex: 1; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="panel" style="flex: 0 0 350px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Attack Package&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="attack-inputs"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2 style="margin-top: 20px;"&gt;Defender Stats&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Target Red Shield:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="redShield" value="5" min="1" max="15" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Target Steps to Kill:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="targetSteps" value="1" min="1" max="6" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;# Defensive Salvoes:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="grayShields" value="0" min="0" max="24" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Defense Value:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="grayValue" value="6" min="1" max="15" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Probability of Kill (Pk)&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="pk-display" id="pkResult"&gt;0.0%&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;canvas id="resultChart"&gt;&lt;/canvas&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const dieTypes = [4, 6, 8, 10, 12, 16, 20];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const attackInputs = document.getElementById('attack-inputs');</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Build Input Fields</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for(let i=1; i&lt;=4; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let defaultDie = i===1 ? 12 : (i===2 ? 10 : (i===3 ? 8 : 20));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let defaultCount = i===1 ? 1 : 0; // Updated Default for Salvoes 1 to be 1</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let minCount = i===1 ? 1 : 0;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let html = `&lt;div class="flex-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;label style="font-size:0.8rem;"&gt;Attack Value ${i}&lt;/label&gt;&lt;br&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;select id="die${i}" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>${dieTypes.map(d =&gt; `&lt;option value="${d}" ${d===defaultDie ? 'selected':''}&gt;D${d}&lt;/option&gt;`).join('')}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;label style="font-size:0.8rem;"&gt;Salvoes ${i}&lt;/label&gt;&lt;br&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="count${i}" value="${defaultCount}" min="${minCount}" max="24" onchange="calculate()"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>attackInputs.innerHTML += html;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let myChart = null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function getProb(sides, target) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return target &gt; sides ? 0 : (sides - target + 1) / sides;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function calcPkForPackage(packageArray, red, grayCount, grayVal, steps) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let totalSalvos = packageArray.length;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(totalSalvos === 0) return { pk: 0, pmf: [1] };</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>packageArray.sort((a,b) =&gt; b-a);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let excess = Math.max(0, grayCount - totalSalvos);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let demotions = new Array(totalSalvos).fill(0);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;excess; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>demotions[i % totalSalvos]++;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let probs = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;totalSalvos; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let baseSides = packageArray[i];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dCount = demotions[i];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let idx = dieTypes.indexOf(baseSides);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let effSides = dieTypes[Math.max(0, idx - dCount)];</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pGray = grayCount &gt; 0 ? getProb(effSides, grayVal) : 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pRed = getProb(effSides, red);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>probs.push(pGray * pRed);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let pmf = [1.0];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let p of probs) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let nextPmf = new Array(pmf.length + 1).fill(0);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let j=0; j&lt;pmf.length; j++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nextPmf[j] += pmf[j] * (1-p);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nextPmf[j+1] += pmf[j] * p;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pmf = nextPmf;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let pk = 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=steps; i&lt;pmf.length; i++) pk += pmf[i];</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return { pk, pmf };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function calculate() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c1 = parseInt(document.getElementById('count1').value) || 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c2 = parseInt(document.getElementById('count2').value) || 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c3 = parseInt(document.getElementById('count3').value) || 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c4 = parseInt(document.getElementById('count4').value) || 0;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d1 = parseInt(document.getElementById('die1').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d2 = parseInt(document.getElementById('die2').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d3 = parseInt(document.getElementById('die3').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d4 = parseInt(document.getElementById('die4').value);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let red = parseInt(document.getElementById('redShield').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let steps = parseInt(document.getElementById('targetSteps').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let grayCount = parseInt(document.getElementById('grayShields').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let grayVal = parseInt(document.getElementById('grayValue').value);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let isSingleDie = (c2 === 0 &amp;&amp; c3 === 0 &amp;&amp; c4 === 0);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let packageArray = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c1; i++) packageArray.push(d1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c2; i++) packageArray.push(d2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c3; i++) packageArray.push(d3);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c4; i++) packageArray.push(d4);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let currentRes = calcPkForPackage(packageArray, red, grayCount, grayVal, steps);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('pkResult').innerText = (currentRes.pk * 100).toFixed(1) + '%';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(myChart) myChart.destroy();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ctx = document.getElementById('resultChart').getContext('2d');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(isSingleDie) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let labels = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let data = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pointColors = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pointRadii = [];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let x=1; x&lt;=24; x++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let testArr = new Array(x).fill(d1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let res = calcPkForPackage(testArr, red, grayCount, grayVal, steps);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labels.push(x);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data.push((res.pk * 100).toFixed(1));</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if(x === c1) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointColors.push('#dc2626');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointRadii.push(6);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointColors.push('#374151');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointRadii.push(3);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>myChart = new Chart(ctx, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>type: 'line',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>labels: labels,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>datasets: [{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>label: 'Pk vs Total Salvoes',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>data: data,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderColor: '#374151',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>backgroundColor: 'rgba(55, 65, 81, 0.1)',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointBackgroundColor: pointColors,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointRadius: pointRadii,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>fill: true,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>tension: 0.2</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>options: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>responsive: true,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>plugins: { title: { display: true, text: 'Pk Curve (Single Die Mode)' } },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Probability (%)' } }, x: { title: { display: true, text: 'Number of Salvoes' } } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let labels = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let data = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let bgColors = [];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let i=0; i&lt;currentRes.pmf.length; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labels.push(i + ' Hits');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data.push((currentRes.pmf[i] * 100).toFixed(1));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>bgColors.push(i &gt;= steps ? '#22c55e' : '#9ca3af');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>myChart = new Chart(ctx, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>type: 'bar',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>labels: labels,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>datasets: [{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>label: 'Probability of Exact Hits',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>data: data,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>backgroundColor: bgColors,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderWidth: 1</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>options: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>responsive: true,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>plugins: { title: { display: true, text: 'Hit Distribution (Mixed Die Mode)' }, legend: {display: false} },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>scales: { y: { beginAtZero: true, title: { display: true, text: 'Probability (%)' } } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Initial run</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>calculate();</span></p>
-<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
-<p class="p1"><span class="s1">"""</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">display(IPython.display.HTML(html_code))</span></p>
+
+<div class="container">
+    <div class="panel" style="flex: 0 0 350px;">
+        <h2>Attack Package</h2>
+        <div id="attack-inputs"></div>
+
+        <h2 style="margin-top: 20px;">Defender Stats</h2>
+        <div class="input-group">
+            <label>Target Red Shield:</label>
+            <input type="number" id="redShield" value="5" min="1" max="15" onchange="calculate()">
+        </div>
+        <div class="input-group">
+            <label>Target Steps to Kill:</label>
+            <input type="number" id="targetSteps" value="1" min="1" max="6" onchange="calculate()">
+        </div>
+        <div class="input-group">
+            <label># Defensive Salvoes:</label>
+            <input type="number" id="grayShields" value="0" min="0" max="24" onchange="calculate()">
+        </div>
+        <div class="input-group">
+            <label>Defense Value:</label>
+            <input type="number" id="grayValue" value="6" min="1" max="15" onchange="calculate()">
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Probability of Kill (Pk)</h2>
+        <div class="pk-display" id="pkResult">0.0%</div>
+        <canvas id="resultChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const dieTypes = [4, 6, 8, 10, 12, 16, 20];
+    const attackInputs = document.getElementById('attack-inputs');
+    
+    // Build Input Fields
+    for(let i=1; i<=4; i++) {
+        let defaultDie = i===1 ? 12 : (i===2 ? 10 : (i===3 ? 8 : 20));
+        let defaultCount = i===1 ? 1 : 0; // Updated Default for Salvoes 1 to be 1
+        let minCount = i===1 ? 1 : 0;
+        
+        let html = `<div class="flex-row">
+            <div>
+                <label style="font-size:0.8rem;">Attack Value ${i}</label><br>
+                <select id="die${i}" onchange="calculate()">
+                    ${dieTypes.map(d => `<option value="${d}" ${d===defaultDie ? 'selected':''}>D${d}</option>`).join('')}
+                </select>
+            </div>
+            <div>
+                <label style="font-size:0.8rem;">Salvoes ${i}</label><br>
+                <input type="number" id="count${i}" value="${defaultCount}" min="${minCount}" max="24" onchange="calculate()">
+            </div>
+        </div>`;
+        attackInputs.innerHTML += html;
+    }
+
+    let myChart = null;
+
+    function getProb(sides, target) {
+        return target > sides ? 0 : (sides - target + 1) / sides;
+    }
+
+    function calcPkForPackage(packageArray, red, grayCount, grayVal, steps) {
+        let totalSalvos = packageArray.length;
+        if(totalSalvos === 0) return { pk: 0, pmf: [1] };
+
+        packageArray.sort((a,b) => b-a);
+        let excess = Math.max(0, grayCount - totalSalvos);
+        let demotions = new Array(totalSalvos).fill(0);
+        
+        for(let i=0; i<excess; i++) {
+            demotions[i % totalSalvos]++;
+        }
+
+        let probs = [];
+        for(let i=0; i<totalSalvos; i++) {
+            let baseSides = packageArray[i];
+            let dCount = demotions[i];
+            let idx = dieTypes.indexOf(baseSides);
+            let effSides = dieTypes[Math.max(0, idx - dCount)];
+            
+            let pGray = grayCount > 0 ? getProb(effSides, grayVal) : 1;
+            let pRed = getProb(effSides, red);
+            probs.push(pGray * pRed);
+        }
+
+        let pmf = [1.0];
+        for(let p of probs) {
+            let nextPmf = new Array(pmf.length + 1).fill(0);
+            for(let j=0; j<pmf.length; j++) {
+                nextPmf[j] += pmf[j] * (1-p);
+                nextPmf[j+1] += pmf[j] * p;
+            }
+            pmf = nextPmf;
+        }
+
+        let pk = 0;
+        for(let i=steps; i<pmf.length; i++) pk += pmf[i];
+        
+        return { pk, pmf };
+    }
+
+    function calculate() {
+        let c1 = parseInt(document.getElementById('count1').value) || 0;
+        let c2 = parseInt(document.getElementById('count2').value) || 0;
+        let c3 = parseInt(document.getElementById('count3').value) || 0;
+        let c4 = parseInt(document.getElementById('count4').value) || 0;
+        
+        let d1 = parseInt(document.getElementById('die1').value);
+        let d2 = parseInt(document.getElementById('die2').value);
+        let d3 = parseInt(document.getElementById('die3').value);
+        let d4 = parseInt(document.getElementById('die4').value);
+
+        let red = parseInt(document.getElementById('redShield').value);
+        let steps = parseInt(document.getElementById('targetSteps').value);
+        let grayCount = parseInt(document.getElementById('grayShields').value);
+        let grayVal = parseInt(document.getElementById('grayValue').value);
+
+        let isSingleDie = (c2 === 0 && c3 === 0 && c4 === 0);
+        
+        let packageArray = [];
+        for(let i=0; i<c1; i++) packageArray.push(d1);
+        for(let i=0; i<c2; i++) packageArray.push(d2);
+        for(let i=0; i<c3; i++) packageArray.push(d3);
+        for(let i=0; i<c4; i++) packageArray.push(d4);
+
+        let currentRes = calcPkForPackage(packageArray, red, grayCount, grayVal, steps);
+        document.getElementById('pkResult').innerText = (currentRes.pk * 100).toFixed(1) + '%';
+
+        if(myChart) myChart.destroy();
+        const ctx = document.getElementById('resultChart').getContext('2d');
+
+        if(isSingleDie) {
+            let labels = [];
+            let data = [];
+            let pointColors = [];
+            let pointRadii = [];
+
+            for(let x=1; x<=24; x++) {
+                let testArr = new Array(x).fill(d1);
+                let res = calcPkForPackage(testArr, red, grayCount, grayVal, steps);
+                labels.push(x);
+                data.push((res.pk * 100).toFixed(1));
+                
+                if(x === c1) {
+                    pointColors.push('#dc2626');
+                    pointRadii.push(6);
+                } else {
+                    pointColors.push('#374151');
+                    pointRadii.push(3);
+                }
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pk vs Total Salvoes',
+                        data: data,
+                        borderColor: '#374151',
+                        backgroundColor: 'rgba(55, 65, 81, 0.1)',
+                        pointBackgroundColor: pointColors,
+                        pointRadius: pointRadii,
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Pk Curve (Single Die Mode)' } },
+                    scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Probability (%)' } }, x: { title: { display: true, text: 'Number of Salvoes' } } }
+                }
+            });
+        } else {
+            let labels = [];
+            let data = [];
+            let bgColors = [];
+
+            for(let i=0; i<currentRes.pmf.length; i++) {
+                labels.push(i + ' Hits');
+                data.push((currentRes.pmf[i] * 100).toFixed(1));
+                bgColors.push(i >= steps ? '#22c55e' : '#9ca3af');
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Probability of Exact Hits',
+                        data: data,
+                        backgroundColor: bgColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Hit Distribution (Mixed Die Mode)' }, legend: {display: false} },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Probability (%)' } } }
+                }
+            });
+        }
+    }
+
+    // Initial run
+    calculate();
+</script>
 </body>
 </html>
+"""
+
+display(IPython.display.HTML(html_code))
