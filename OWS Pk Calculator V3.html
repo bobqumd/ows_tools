@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;OWS Strike Calculator - CG BLUE&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>:root {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--bg-base: #070B14;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--panel-bg: #111827;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--cyan-glow: #00A8FF;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--red-alert: #E53935;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--gold-accent: #FFB300;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text-main: #E2E8F0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text-muted: #9CA3AF;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--border-dark: #1F2937;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--bg-base);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-image: radial-gradient(circle at top, #111827 0%, #070B14 100%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.header-container {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 1200px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto 20px auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.header-container img {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-height: 120px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>filter: drop-shadow(0px 4px 10px rgba(0, 168, 255, 0.3));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.header-title {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 800;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>letter-spacing: 2px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--cyan-glow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-shadow: 0 0 10px rgba(0, 168, 255, 0.4);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.container {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 1200px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 20px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.panel {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--panel-bg);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 25px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-dark);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-top: 3px solid var(--cyan-glow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 8px 32px rgba(0,0,0,0.6);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex: 1;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>min-width: 300px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>h2 {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-dark);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-bottom: 10px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>letter-spacing: 1px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.input-group {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: space-between;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>select, input {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 8px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #1F2937;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--cyan-glow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #374151;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 4px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 100px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>select:focus, input:focus {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>outline: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-color: var(--cyan-glow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 8px rgba(0, 168, 255, 0.3);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pk-display {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 3rem;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 900;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--gold-accent);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 15px 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-shadow: 0 0 15px rgba(255, 179, 0, 0.4);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.pk-label {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.8rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>letter-spacing: 2px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>canvas { width: 100% !important; max-height: 400px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.flex-row { display: flex; gap: 15px; margin-bottom: 15px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.flex-row &gt; div { flex: 1; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="header-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;img src="YOUR_IMAGE_LINK_HERE" alt="CG BLUE Logo" onerror="this.style.display='none'"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="header-title"&gt;Joint Strike Readiness Adjudicator&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="panel" style="flex: 0 0 350px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Strike Package Assembly&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="attack-inputs"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2 style="margin-top: 25px;"&gt;Threat Defenses&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Target Red Shield:&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="redShield" value="5" min="1" max="15" onchange="calculate()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Target Steps to Kill:&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="targetSteps" value="1" min="1" max="6" onchange="calculate()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;# Defensive Salvoes:&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="grayShields" value="0" min="0" max="24" onchange="calculate()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;Defense Value:&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="grayValue" value="6" min="1" max="15" onchange="calculate()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Mission Probability&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="pk-display" id="pkResult"&gt;0.0%&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="pk-label"&gt;Probability of Kill (Pk)&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;canvas id="resultChart"&gt;&lt;/canvas&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Set Chart.js Dark Mode Defaults</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>Chart.defaults.color = '#9CA3AF';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>Chart.defaults.font.family = "'Segoe UI', sans-serif";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const dieTypes = [4, 6, 8, 10, 12, 16, 20];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const attackInputs = document.getElementById('attack-inputs');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Build Input Fields</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for(let i=1; i&lt;=4; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let defaultDie = i===1 ? 12 : (i===2 ? 10 : (i===3 ? 8 : 20));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let defaultCount = i===1 ? 1 : 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let minCount = i===1 ? 1 : 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let html = `&lt;div class="flex-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;label style="font-size:0.7rem; color:#6B7280;"&gt;Attack Value ${i}&lt;/label&gt;&lt;br&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;select id="die${i}" onchange="calculate()" style="width:100%; margin-top:5px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>${dieTypes.map(d =&gt; `&lt;option value="${d}" ${d===defaultDie ? 'selected':''}&gt;D${d}&lt;/option&gt;`).join('')}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;label style="font-size:0.7rem; color:#6B7280;"&gt;Salvoes ${i}&lt;/label&gt;&lt;br&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="count${i}" value="${defaultCount}" min="${minCount}" max="24" onchange="calculate()" style="width:90%; margin-top:5px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>attackInputs.innerHTML += html;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let myChart = null;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function getProb(sides, target) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return target &gt; sides ? 0 : (sides - target + 1) / sides;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function calcPkForPackage(packageArray, red, grayCount, grayVal, steps) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let totalSalvos = packageArray.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(totalSalvos === 0) return { pk: 0, pmf: [1] };</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>packageArray.sort((a,b) =&gt; b-a);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let excess = Math.max(0, grayCount - totalSalvos);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let demotions = new Array(totalSalvos).fill(0);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;excess; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>demotions[i % totalSalvos]++;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let probs = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;totalSalvos; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let baseSides = packageArray[i];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dCount = demotions[i];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let idx = dieTypes.indexOf(baseSides);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let effSides = dieTypes[Math.max(0, idx - dCount)];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pGray = grayCount &gt; 0 ? getProb(effSides, grayVal) : 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pRed = getProb(effSides, red);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>probs.push(pGray * pRed);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let pmf = [1.0];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let p of probs) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let nextPmf = new Array(pmf.length + 1).fill(0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let j=0; j&lt;pmf.length; j++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nextPmf[j] += pmf[j] * (1-p);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nextPmf[j+1] += pmf[j] * p;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pmf = nextPmf;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let pk = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=steps; i&lt;pmf.length; i++) pk += pmf[i];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return { pk, pmf };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function calculate() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c1 = parseInt(document.getElementById('count1').value) || 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c2 = parseInt(document.getElementById('count2').value) || 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c3 = parseInt(document.getElementById('count3').value) || 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let c4 = parseInt(document.getElementById('count4').value) || 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d1 = parseInt(document.getElementById('die1').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d2 = parseInt(document.getElementById('die2').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d3 = parseInt(document.getElementById('die3').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let d4 = parseInt(document.getElementById('die4').value);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let red = parseInt(document.getElementById('redShield').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let steps = parseInt(document.getElementById('targetSteps').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let grayCount = parseInt(document.getElementById('grayShields').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let grayVal = parseInt(document.getElementById('grayValue').value);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let isSingleDie = (c2 === 0 &amp;&amp; c3 === 0 &amp;&amp; c4 === 0);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let packageArray = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c1; i++) packageArray.push(d1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c2; i++) packageArray.push(d2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c3; i++) packageArray.push(d3);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0; i&lt;c4; i++) packageArray.push(d4);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let currentRes = calcPkForPackage(packageArray, red, grayCount, grayVal, steps);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('pkResult').innerText = (currentRes.pk * 100).toFixed(1) + '%';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(myChart) myChart.destroy();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ctx = document.getElementById('resultChart').getContext('2d');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Chart Grid Configuration for Dark Mode</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const gridConfig = { color: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 255, 255, 0.1)' };</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(isSingleDie) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let labels = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let data = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pointColors = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let pointRadii = [];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let x=1; x&lt;=24; x++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let testArr = new Array(x).fill(d1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let res = calcPkForPackage(testArr, red, grayCount, grayVal, steps);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labels.push(x);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data.push((res.pk * 100).toFixed(1));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if(x === c1) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointColors.push('#00A8FF'); // Cyan highlight</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointRadii.push(6);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointColors.push('#374151');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>pointRadii.push(3);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>myChart = new Chart(ctx, {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>type: 'line',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>labels: labels,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>datasets: [{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>label: 'Pk vs Total Salvoes',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>data: data,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderColor: '#00A8FF', // Cyan line</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>backgroundColor: 'rgba(0, 168, 255, 0.1)',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointBackgroundColor: pointColors,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointBorderColor: '#111827',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointBorderWidth: 2,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>pointRadius: pointRadii,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>fill: true,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>tension: 0.3</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>options: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>responsive: true,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>plugins: { title: { display: false }, legend: { display: false } },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>scales: {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>y: { beginAtZero: true, max: 100, grid: gridConfig, title: { display: true, text: 'Probability (%)', color: '#6B7280' } },<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>x: { grid: gridConfig, title: { display: true, text: 'Number of Salvoes Allocated', color: '#6B7280' } }<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let labels = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let data = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let bgColors = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let borderColors = [];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for(let i=0; i&lt;currentRes.pmf.length; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labels.push(i + ' Hits');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data.push((currentRes.pmf[i] * 100).toFixed(1));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Cyan for success, Dark Grey/Red tint for failure</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>bgColors.push(i &gt;= steps ? 'rgba(0, 168, 255, 0.8)' : 'rgba(229, 57, 53, 0.2)');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>borderColors.push(i &gt;= steps ? '#00A8FF' : '#E53935');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>myChart = new Chart(ctx, {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>type: 'bar',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>data: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>labels: labels,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>datasets: [{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>label: 'Probability of Exact Hits',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>data: data,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>backgroundColor: bgColors,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderColor: borderColors,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderWidth: 1,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>borderRadius: 4</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>options: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>responsive: true,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>plugins: { title: { display: false }, legend: {display: false} },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>scales: {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>y: { beginAtZero: true, grid: gridConfig, title: { display: true, text: 'Probability (%)', color: '#6B7280' } },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>x: { grid: { display: false } }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>calculate();</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
