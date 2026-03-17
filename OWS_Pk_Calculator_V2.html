@@ -163,4 +163,71 @@
                 let testArr = new Array(x).fill(d1);
                 let res = calcPkForPackage(testArr, red, grayCount, grayVal, steps);
                 labels.push(x);
-                data.push((res.pk *
+                data.push((res.pk * 100).toFixed(1));
+                
+                if(x === c1) {
+                    pointColors.push('#dc2626');
+                    pointRadii.push(6);
+                } else {
+                    pointColors.push('#374151');
+                    pointRadii.push(3);
+                }
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pk vs Total Salvoes',
+                        data: data,
+                        borderColor: '#374151',
+                        backgroundColor: 'rgba(55, 65, 81, 0.1)',
+                        pointBackgroundColor: pointColors,
+                        pointRadius: pointRadii,
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Pk Curve (Single Die Mode)' } },
+                    scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Probability (%)' } }, x: { title: { display: true, text: 'Number of Salvoes' } } }
+                }
+            });
+        } else {
+            let labels = [];
+            let data = [];
+            let bgColors = [];
+
+            for(let i=0; i<currentRes.pmf.length; i++) {
+                labels.push(i + ' Hits');
+                data.push((currentRes.pmf[i] * 100).toFixed(1));
+                bgColors.push(i >= steps ? '#22c55e' : '#9ca3af');
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Probability of Exact Hits',
+                        data: data,
+                        backgroundColor: bgColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Hit Distribution (Mixed Die Mode)' }, legend: {display: false} },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Probability (%)' } } }
+                }
+            });
+        }
+    }
+
+    // Initial run
+    calculate();
+</script>
+</body>
+</html>
