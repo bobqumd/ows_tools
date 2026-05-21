@@ -177,13 +177,21 @@
         <div id="attack-inputs"></div>
 
         <h2 style="margin-top: 25px;">Threat Defenses</h2>
-        <div class="input-group">
-            <label>Target Red Shield:</label>
-            <input type="number" id="redShield" value="5" min="1" max="15" onchange="calculate()">
+        
+        <div class="slider-group">
+            <div class="input-group" style="margin-bottom: 5px; border: none;">
+                <label>Target Red Shield:</label>
+                <input type="number" id="redShield" value="5" min="1" max="15" oninput="syncInputs('redShield', 'redShieldSlider')">
+            </div>
+            <input type="range" id="redShieldSlider" value="5" min="1" max="15" oninput="syncInputs('redShieldSlider', 'redShield')">
         </div>
-        <div class="input-group">
-            <label>Target Steps to Kill:</label>
-            <input type="number" id="targetSteps" value="1" min="1" max="6" onchange="calculate()">
+
+        <div class="slider-group">
+            <div class="input-group" style="margin-bottom: 5px; border: none;">
+                <label>Target Steps to Kill:</label>
+                <input type="number" id="targetSteps" value="1" min="1" max="6" oninput="syncInputs('targetSteps', 'targetStepsSlider')">
+            </div>
+            <input type="range" id="targetStepsSlider" value="1" min="1" max="6" oninput="syncInputs('targetStepsSlider', 'targetSteps')">
         </div>
         
         <div class="slider-group">
@@ -194,9 +202,12 @@
             <input type="range" id="grayShieldsSlider" value="0" min="0" max="24" oninput="syncInputs('grayShieldsSlider', 'grayShields')">
         </div>
 
-        <div class="input-group">
-            <label>Defense Value:</label>
-            <input type="number" id="grayValue" value="6" min="1" max="15" onchange="calculate()">
+        <div class="slider-group">
+            <div class="input-group" style="margin-bottom: 5px; border: none;">
+                <label>Defense Value:</label>
+                <input type="number" id="grayValue" value="6" min="1" max="15" oninput="syncInputs('grayValue', 'grayValueSlider')">
+            </div>
+            <input type="range" id="grayValueSlider" value="6" min="1" max="15" oninput="syncInputs('grayValueSlider', 'grayValue')">
         </div>
     </div>
 
